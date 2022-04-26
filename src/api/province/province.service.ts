@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProvinceEntity } from 'src/entities';
+import { ImageEntity, ProvinceEntity } from 'src/entities';
 import { ProvinceRepository, PlaceRepository } from 'src/repositories';
 import { paginationBuilder } from 'src/utils';
 import {
@@ -24,7 +24,7 @@ export class ProvinceService {
   ): Promise<{ results: any[]; total: number; count: number }> {
     const { limit, offset } = paginationBuilder({
       page: getProvinceWithFilterDto.page,
-      limit: getProvinceWithFilterDto.limit,
+      limit: getProvinceWithFilterDto.page_size,
     });
     const { results, total, count } = await this.provinceRepo.$findAndCountAll({
       ...getProvinceWithFilterDto,
@@ -32,6 +32,10 @@ export class ProvinceService {
       limit,
     });
     return { results, total, count };
+  }
+
+  async getProvinceImages(id): Promise<[ImageEntity]> {
+    return await this.provinceRepo.getProvinceImages(id);
   }
 
   async getProvinceById(id: string): Promise<ProvinceEntity> {

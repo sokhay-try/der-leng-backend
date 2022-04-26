@@ -22,7 +22,7 @@ export class PlaceService {
   ): Promise<{ results: any[]; total: number; count: number }> {
     const { limit, offset } = paginationBuilder({
       page: getPlaceWithFilterDto.page,
-      limit: getPlaceWithFilterDto.limit,
+      limit: getPlaceWithFilterDto.page_size,
     });
     const { results, total, count } = await this.placeRepo.$findAndCountAll({
       ...getPlaceWithFilterDto,

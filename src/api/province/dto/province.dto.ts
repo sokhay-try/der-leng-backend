@@ -6,6 +6,9 @@ export class CreateProvinceDto {
 
   @IsNotEmpty()
   description: string;
+
+  @IsOptional()
+  images: [string];
 }
 
 export class UpdateProvinceDto extends CreateProvinceDto {
@@ -28,5 +31,13 @@ export class GetProvinceWithFilterDto {
   limit: number;
 
   @IsOptional()
+  page_size: number;
+
+  @IsOptional()
   offset: number;
+}
+
+export class GetProvinceImagesDto {
+  @IsNotEmpty()
+  provinceId: string;
 }

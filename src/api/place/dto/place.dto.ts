@@ -43,5 +43,8 @@ export class GetPlaceWithFilterDto {
   limit: number;
 
   @IsOptional()
+  page_size: number;
+
+  @IsOptional()
   offset: number;
 }

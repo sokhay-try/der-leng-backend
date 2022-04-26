@@ -1,15 +1,12 @@
-import { ProvinceEntity } from 'src/entities';
-import { EntityRepository, Repository } from 'typeorm';
+import { ImageEntity, ProvinceEntity } from 'src/entities';
+import { EntityRepository, getConnection, Repository } from 'typeorm';
 import { FindProvinceOpt } from 'src/api/province/interface';
 import {
   ConflictException,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import {
-  CreateProvinceDto,
-  UpdateProvinceDto,
-} from 'src/api/province/dto/province.dto';
+import { CreateProvinceDto } from 'src/api/province/dto/province.dto';
 
 @EntityRepository(ProvinceEntity)
 export class ProvinceRepository extends Repository<ProvinceEntity> {
@@ -36,6 +33,19 @@ export class ProvinceRepository extends Repository<ProvinceEntity> {
     const results = data;
     const count = results.length;
     return { results, total, count };
+  }
+
+  async getProvinceImages(id): Promise<[ImageEntity]> {
+    const q = await getConnection()
+      .createQueryBuilder('image' as any, 'img')
+      .select('img.id', 'id')
+      .addSelect('img.url', 'url')
+      .innerJoin('province_image', 'p_img', 'img.id=p_img.image_id');
+
+    if (id) q.andWhere('p_img.province_id  = :id', { id });
+
+    const [data] = await Promise.all([q.getRawMany()]);
+    return data as any;
   }
 
   async createProvince(

@@ -4,7 +4,7 @@ import { configValidationSchema } from './config/validation-schema';
 import { DatabaseModule } from './database/database.module';
 import { ProvinceModule } from './api/province/province.module';
 import { PlaceModule } from './api/place/place.module';
-import { UploadModule } from './api/upload/upload.module';
+import { UploadImageModule } from './api/upload-image/upload-image.module';
 
 @Module({
   imports: [
@@ -14,7 +14,7 @@ import { UploadModule } from './api/upload/upload.module';
     DatabaseModule,
     ProvinceModule,
     PlaceModule,
-    UploadModule,
+    UploadImageModule,
   ],
   controllers: [],
   providers: [],
